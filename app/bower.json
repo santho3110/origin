@@ -1,0 +1,21 @@
+{
+  "name": "gulpapp",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "sandy"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/santho3110/origin",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "angular": "^1.6.1"
+  }
+}
