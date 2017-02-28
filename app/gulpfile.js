@@ -10,13 +10,37 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
     livereload = require('gulp-livereload'),
-    del = require('del');
+    del = require('del'),
+    plumber = require('gulp-plumber')
+    browsersync = require('browser-sync')
+    reload = browsersync.reload;
 
 gulp.task('scripts', function() {
-  return gulp.src(['./js/**/*.js','!./js/dest/*'])
+  return gulp.src(['./js/**/*.js'])
+    .pipe(plumber())
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest('./dest/js'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('./js/dest'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(gulp.dest('./dest/js'));
 });
-gulp.task('default', ['scripts']);
+
+gulp.task('html', function(){
+    gulp.src('./**/*.html')
+    .pipe(reload({stream:true}));
+});
+
+gulp.task('browser-sync', function(){
+    browsersync({
+        server:{
+            baseDir:"./"
+        }
+    });
+})
+
+gulp.task('watch', function(){
+    gulp.watch('./js/**/*.js', ['scripts']);
+    gulp.watch('./js/**/*.html', ['html']);
+});
+
+gulp.task('default', ['scripts', 'html', 'browser-sync','watch']);
